@@ -1,0 +1,193 @@
+/*
+ * Copyright 2009 FriendFeed
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+* { margin:0; padding:0 }
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 1em;
+  text-rendering: optimizeLegibility;
+}
+html, body { min-height:100%; }
+body {
+    padding: 0 0 0px;
+    background-color: #fff;
+}
+
+table {
+  border-collapse: collapse;
+  border: 0;
+}
+
+td {
+  border: 0;
+  padding: 0;
+}
+
+#chatbox {
+  float: right;
+  position: relative;
+  bottom: 20em;
+  left: 10px; 
+}
+
+#inbox {
+  border:1px solid #DDE4EA;
+  padding-top: 0.25em;   
+  padding-bottom: 0.75em;
+  padding-right: 0.75em;
+  padding-left: 0.75em;
+}
+#input {
+  margin-top: 0.5em;
+}
+
+span {
+font-family: "Helvetica Neue";
+font-size: 16px;
+}
+
+#inbox .message {
+  padding-top: 0.25em;
+}
+
+
+
+#nav {
+  float: right;
+  z-index: 99;
+  margin-top: 0.5em;
+  margin-right: 1em;
+}
+
+body{
+	background-attachment: fixed;
+	background-color: #DDE4EA;
+	background-image: -moz-linear-gradient(90deg, #AFBCC8 0%, #DDE4EA);
+	background-image: -webkit-linear-gradient(90deg, #AFBCC8 0%, #DDE4EA);
+	background-repeat: repeat;
+	border-top: 1px solid #9CACBC;
+	color: #212F40;
+	font-family: proxima-nova,"Helvetica Neue",Arial,sans-serif;
+	font-size: 16px;
+	line-height: 22px;
+	margin: 0;
+	padding: 0;
+	z-index: 1;
+	display:block;
+}
+#contant{
+	position:relative;
+	border:1px solid #DDE4EA;
+	display:block;
+	margin:0 auto;
+	padding:40px 40px 50px;
+	text-align:center;
+	width:90%;
+}
+
+#contant2{
+	position:relative;
+	border:1px solid #DDE4EA;
+	display:block;
+	margin:0 auto;
+	padding:50px 40px 50px;
+	text-align:center;
+	width:27%;
+	
+}
+
+#main {
+	position:relative;
+	display:block;
+	width:70%;
+	height:100%;
+	margin:0 auto;
+	padding:0;
+	background-color:#FFF;
+}
+
+input[type=button],button{
+	-moz-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	cursor: pointer;
+	display: block;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 100%;
+	padding: 10px;
+	text-align: center;
+	text-decoration: none;
+	background-color: #1F8DD6;
+	/*background: -moz-linear-gradient(90deg, #1F8DD6 90%, #74C1ED);*/
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1F8DD6', endColorstr='#74C1ED'); /* for IE */
+	background: -webkit-linear-gradient(90deg,#1F8DD6 90%,#74C1ED); /* for webkit browsers */
+	background: -moz-linear-gradient(90deg,#1F8DD6 90%,#74C1ED); /* for firefox 3.6+ */ 
+	border: 1px solid #114D97;
+	color: white;
+	text-shadow: 0 -1px #114D97;
+	outline: 0 none;
+	cursor: pointer;
+	font-weight: normal;
+	line-height: 100%;
+	text-align: center;
+	text-decoration: none;
+}
+
+input[type=button]{
+float: left;
+}
+
+#btndiv{
+position:relative;
+margin-left:20%;
+}
+
+
+button.google{
+	width: 318px;
+	font-size: 22px;
+	padding: 14px 0 12px;
+	font-weight: bold;
+}
+button.google img{
+	border: 0 none;
+	font-family: inherit;
+	font-size: 100%;
+	margin: 0;
+	margin-right:8px;
+	padding: 0;
+	vertical-align:middle;
+}
+
+p.head {			
+	font-size: 34px;
+	font-weight: bold;
+	letter-spacing: -1px;
+	color:#212F40;
+}
+p.body-text {
+	font-size: 18px;
+	font-weight: normal;
+}
