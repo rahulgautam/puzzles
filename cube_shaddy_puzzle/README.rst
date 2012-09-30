@@ -22,18 +22,16 @@ URL: https://localhost:8000
 
 Screenshots
 -----------
+   Single Player Mode
 .. figure:: http://i.imgur.com/ET1mr.png
     :align: center
 
-    Single Player Mode
-
+   Choose Game Type
 .. figure:: http://i.imgur.com/IeQDh.png
     :align: center
 
-    Choose Game Type
-
+   Login Page
 .. figure:: http://i.imgur.com/NBTIG.png
     :align: center
 
-    Login Page
 
