@@ -1,6 +1,6 @@
 About Puzzle
 =============
-cube is an HTML5 web-based tiny web application build on top of tonrnado.
+cube is an HTML5 based tiny web application build on top of tonrnado.
 Right now it has implemented a `Shaddy Puzzle <http://en.wikipedia.org/wiki/Nonogram>`_
 
 Features include:
@@ -12,11 +12,11 @@ Features include:
     
 How to Run:
 -----------
-     Python should be >= 2.6 , tornado >= 2.3
-     # unzip cube_shaddy_puzzle.zip
-     # cd cube_shaddy_puzzle
-     # chmod +x cube.py
-     # ./cube.py
+    * Python should be >= 2.6 , tornado >= 2.3.
+    * unzip cube_shaddy_puzzle.zip
+    * cd cube_shaddy_puzzle
+    * chmod +x cube.py
+    * ./cube.py
 
 URL: https://localhost:8000
 
@@ -26,9 +26,11 @@ Screenshots
 .. figure:: http://i.imgur.com/ET1mr.png
     :align: center
 
+
    Choose Game Type
 .. figure:: http://i.imgur.com/IeQDh.png
     :align: center
+
 
    Login Page
 .. figure:: http://i.imgur.com/NBTIG.png
