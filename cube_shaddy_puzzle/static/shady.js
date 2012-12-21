@@ -23,10 +23,9 @@ var tempNumberOfMmoves=0;
 var numberMovesDiv=null;
 var canvasHeading=null;
 var stylePaddingLeft = 0, stylePaddingTop=0, styleBorderLeft=0, styleBorderTop=0, htmlTop=0, htmlLeft=0,  html=null;
-var solutionArray=null;
 var emptyArray=null;
-var tournament = 1
-
+var tournament = 1;
+var isCorrect = false;
 var inputMoves = $("#input").find("#message");
 
 var msgForm = $("#messageform");
@@ -43,6 +42,8 @@ function getArray(){
 							cells = response.cells+1;
 							cellArray=response.cells_array;
 							emptyArray=deepObjCopy(response.cells_array);
+							console.log(" empty Array : "+emptyArray.toString());
+							console.log(" cell Array : "+cellArray.toString());
 							//solutionArray=solutionGrid[randomIndex][2];
 							infoXAxis=response.y_axis;
 							infoYAxis=response.x_axis;	
@@ -63,15 +64,21 @@ function getArray(){
 }
 
 function getRandom(){
+        if(isCorrect)
+            isCorrect = false;
         var args = {"_xsrf": getCookie("_xsrf"), "gametype": gametype, "tournament": tournament};
         $.ajax({url: "/game/cube/random", type: "POST", dataType: "text", cache: false,
                 data: $.param(args), success:function(response){
 						response=eval("(" + response + ")");
+						numberOfMmoves=0;
 						if(response.success==0)
 						{
 							//alert(response.cells);
 							cells = response.cells+1;
 							cellArray=response.cells_array;
+							emptyArray=deepObjCopy(response.cells_array);
+							console.log(" empty Array Random : "+emptyArray.toString());
+							console.log(" cell Array Random : "+cellArray.toString());
 							//solutionArray=solutionGrid[randomIndex][2];
 							infoXAxis=response.y_axis;
 							infoYAxis=response.x_axis;	
@@ -243,7 +250,8 @@ function canvasClick(e) {
 			
 			sendMove(numberOfMmoves);
 			//$("#submit_scores").click();
-		}	
+		}
+		console.log(cellArray.toString());
 		
     }
 	
@@ -257,10 +265,11 @@ function compareSolution(result)
 	else
 		if(result=='1'){
 		    sendMove(numberOfMmoves+" Correct ")
-			canvasHeading.innerHTML="<pre> Info : Correct solution.</pre>";
+			canvasHeading.innerHTML="<pre> Info : Awesome, You got it, Its correct solution.</pre>";
+			isCorrect = true
 		}
 		else
-			canvasHeading.innerHTML="<pre> Info : Incorrect solution.</pre>";
+			canvasHeading.innerHTML="<pre> Info : Incorrect solution, Think again.</pre>";
 }
 
 
@@ -325,8 +334,18 @@ function resetCanvas(){
 	if(numberOfMmoves==-1)
 		numberOfMmoves=0;
 	else
-		numberOfMmoves=2*numberOfMmoves;
+	    if (isCorrect)
+	    {
+	        numberOfMmoves=0;
+	        isCorrect=false;
+	    }
+	    else
+	    {
+		    numberOfMmoves=numberOfMmoves+numberOfMmoves;
+		}
+	console.log(" empty Array Reset : "+emptyArray.toString());
 	cellArray=deepObjCopy(emptyArray);
+	console.log(" cell Array Reset : "+cellArray.toString());
 	drawCanvas();
 }
 
@@ -355,7 +374,14 @@ function showSolution()
 			}
 		}*/
 		cellArray=solutionArray;
-		canvasHeading.innerHTML="<pre> Info : Don't give up so early, Try hard next time. </pre>";
+		if(isCorrect)
+		{
+		    canvasHeading.innerHTML="<pre> Info : Hi thats how i did it, Same as you, Bravo. </pre>";
+		}
+		else
+		{
+    		canvasHeading.innerHTML="<pre> Info : Don't give up so early, Try hard next time. </pre>";
+    	}
 	}
 }
 function getHelp()

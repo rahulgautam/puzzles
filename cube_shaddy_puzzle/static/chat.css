@@ -114,7 +114,7 @@ body{
 	margin:0 auto;
 	padding:50px 40px 50px;
 	text-align:center;
-	width:27%;
+	width:35%;
 	
 }
 
@@ -168,7 +168,7 @@ margin-left:20%;
 button.google{
 	width: 318px;
 	font-size: 22px;
-	padding: 14px 0 12px;
+	margin-left:38px;
 	font-weight: bold;
 }
 button.google img{

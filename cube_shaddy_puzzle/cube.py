@@ -20,7 +20,7 @@
 """
 @author: Rahul Gautam
 @author: Mahipal Chaudhary
-@note: Puzzel > Shaddy Puzzel
+@note: Puzzel > Shaddy Puzzle
 """
 
 import logging
@@ -176,8 +176,8 @@ class MessageMixin(object):
             except:
                 logging.error("Error in waiter callback", exc_info=True)
         cls.waiters = set()
-#        logging.info(" cache : "+ str(cls.cache))
-#        logging.info(" cache : "+ str(messages))
+        #logging.info(" cache : "+ str(cls.cache))
+        #logging.info(" cache : "+ str(messages))
         key= messages[0].get('from')
         flag = 1
         for i in cls.cache:
@@ -277,7 +277,7 @@ class GenerateArray(object):
 			cells = GenerateArray.get_cells(key)
 			x_axis = GenerateArray.get_xaxis(key)
 			y_axis = GenerateArray.get_yaxis(key)
-			logging.info(" solution_string "+str(solution_li))
+			#logging.info(" solution_string "+str(solution_li)+" "+str(key))
 			solution_li = map(str,solution_li.split(','))
 			solution_array = []
 			k=0
@@ -510,8 +510,7 @@ def main():
         "certfile": os.path.join(os.getcwd(), "certificate.pem"),
         "keyfile": os.path.join(os.getcwd(), "keyfile.pem"),
     })
-    print("For this to work you must add the following to Cube's "
-          "server.conf:\n")
+    print(" Cube start by default with https support:\n")
     # Using the cookie_secret as the API key here:
     print('api_keys = "MjkwYzc3MDI2MjhhNGZkNDg1MjJkODgyYjBmN2MyMTM4M:secret"')
     print("\n...and restart Cube for the change to take effect.")
