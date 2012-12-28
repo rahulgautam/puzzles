@@ -1,6 +1,6 @@
 About Puzzle
 =============
-cube is an HTML5 based tiny web application build on top of tonrnado.
+cube is a HTML5 based tiny web application build on top of tonrnado.
 Right now it has implemented a `Shaddy Puzzle <http://en.wikipedia.org/wiki/Nonogram>`_
 
 Features include:
