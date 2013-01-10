@@ -16,11 +16,13 @@
 
 # NOTE:  This is a modified version of the 'chat' demo application included in
 # the Tornado framework tarball.
+# For the use of 'puzzle' we have modifed this as our use-case.
 
 """
 @author: Rahul Gautam
 @author: Mahipal Chaudhary
-@note: Puzzel > Shaddy Puzzle
+@note: Puzzel > cube (Shaddy Puzzle)
+@todo: Enhance tournament
 """
 
 import logging
@@ -45,7 +47,7 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", CubeHome),
-			(r"/index", MainHandler),
+            (r"/index", MainHandler),
             (r"/auth/login", AuthLoginHandler),
             (r"/auth/logout", AuthLogoutHandler),
             (r"/a/message/new", MessageNewHandler),
@@ -74,7 +76,7 @@ class BaseHandler(tornado.web.RequestHandler):
         user_json = self.get_secure_cookie("user")
         if not user_json: return None
         return tornado.escape.json_decode(user_json)
-        
+
 
 class MainHandler(BaseHandler):
     @tornado.web.authenticated
@@ -144,7 +146,7 @@ class GameHome(BaseHandler):
         self.render(
             "game.html"
         )		
-        
+
 class MessageMixin(object):
     waiters = set()
     cache = []
@@ -176,166 +178,164 @@ class MessageMixin(object):
             except:
                 logging.error("Error in waiter callback", exc_info=True)
         cls.waiters = set()
-        #logging.info(" cache : "+ str(cls.cache))
-        #logging.info(" cache : "+ str(messages))
         key= messages[0].get('from')
         flag = 1
         for i in cls.cache:
-			if i['from'] == key:
-				flag = 0
-				i['body'] = messages[0].get('body')
-				i['html'] = messages[0].get('html')
-				i['id'] = messages[0].get('id')        
+            if i['from'] == key:
+                flag = 0
+                i['body'] = messages[0].get('body')
+                i['html'] = messages[0].get('html')
+                i['id'] = messages[0].get('id')        
         if flag:
-			cls.cache.extend(messages)
+            cls.cache.extend(messages)
         if len(cls.cache) > self.cache_size:
             cls.cache = cls.cache[-self.cache_size:]
-            
+
     def modify_messages(self, from_user, color='black'):
         cls = MessageMixin
         cls.waiters = set()
         logging.info(" cachedsfas : "+ str(cls.cache))
         logging.info("user"+from_user)
         for i in cls.cache:
-			logging.info(str(i['from']))
-			if str(i['from']) == from_user:
-				loc = i['html'].find('>')
-				loc2 = 1
-				if i['html'].find("style='color:") != -1:
-					loc = i['html'].find("style='color:")
-					loc2 = i['html'].find(";",loc)+1
-					loc2 = loc2-loc
-				red_class = " style='color:%s'; "%color
-				i['html'] = i['html'][:loc-1] + red_class + i['html'][loc+loc2:]
-				
-				logging.info(" cache : "+ str(cls.cache))
-        
+            logging.info(str(i['from']))
+            if str(i['from']) == from_user:
+                loc = i['html'].find('>')
+                loc2 = 1
+                if i['html'].find("style='color:") != -1:
+                    loc = i['html'].find("style='color:")
+                    loc2 = i['html'].find(";",loc)+1
+                    loc2 = loc2-loc
+                red_class = " style='color:%s'; "%color
+                i['html'] = i['html'][:loc-1] + red_class + i['html'][loc+loc2:]
+
+                logging.info(" cache : "+ str(cls.cache))
+
         if len(cls.cache) > self.cache_size:
             cls.cache = cls.cache[-self.cache_size:]
 
 
 
 class GenerateArray(object):
-	puzzle_dict = {}
-	solution_dict = {}
-	rc = RandomCube()
-	
-	def __init__(self):
-		pass
-		
-	@staticmethod
-	def get_array(key):
-		if GenerateArray.puzzle_dict.has_key(key):
-			pass
-		else:
-			result_dict = GenerateArray.rc.get_random_cube()
-			GenerateArray.solution_dict[key] = result_dict.pop('solution')
-			GenerateArray.puzzle_dict[key] = result_dict
-		return GenerateArray.puzzle_dict.get(key)
-	
-	@staticmethod
-	def get_solution(key):		
-		return GenerateArray.solution_dict.get(key, "Error_No_Solution_Found")
-	
-	@staticmethod
-	def get_cells(key):
-		if GenerateArray.puzzle_dict.has_key(key):
-			return GenerateArray.puzzle_dict[key].get('cells')
-		else:
-			return 
+    puzzle_dict = {}
+    solution_dict = {}
+    rc = RandomCube()
 
-	@staticmethod
-	def get_xaxis(key):
-		if GenerateArray.puzzle_dict.has_key(key):
-			return GenerateArray.puzzle_dict[key].get('x_axis')
-		else:
-			return
-			
-	@staticmethod
-	def get_yaxis(key):
-		if GenerateArray.puzzle_dict.has_key(key):
-			return GenerateArray.puzzle_dict[key].get('y_axis')
-		else:
-			return
-					
-	@staticmethod
-	def del_tournament(key):
-		if GenerateArray.puzzle_dict.has_key(key):		
-			del GenerateArray.puzzle_dict[key]
-			
-		if GenerateArray.solution_dict.has_key(key):		
-			del GenerateArray.solution_dict[key]
+    def __init__(self):
+        pass
 
-	@staticmethod
-	def get_random(key):
-	    GenerateArray.del_tournament(key)
-	    return GenerateArray.get_array(key)
+    @staticmethod
+    def get_array(key):
+        if GenerateArray.puzzle_dict.has_key(key):
+            pass
+        else:
+            result_dict = GenerateArray.rc.get_random_cube()
+            GenerateArray.solution_dict[key] = result_dict.pop('solution')
+            GenerateArray.puzzle_dict[key] = result_dict
+        return GenerateArray.puzzle_dict.get(key)
 
-	@staticmethod
-	def check_solution(key, solution_li):
-		if GenerateArray.solution_dict.has_key(key):
-			cells = GenerateArray.get_cells(key)
-			x_axis = GenerateArray.get_xaxis(key)
-			y_axis = GenerateArray.get_yaxis(key)
-			#logging.info(" solution_string "+str(solution_li)+" "+str(key))
-			solution_li = map(str,solution_li.split(','))
-			solution_array = []
-			k=0
-			
-			for i in range(cells+1):
-				temp = []
-				for j in range(cells+1):
-					temp.append(solution_li[k])
-					k+=1					
-				solution_array.append(temp)
-			
-			#GenerateArray.solution_dict[key])			
-			del solution_array[0]
-			for i in solution_array:
-				del i[0]
-			info_x_axis=[]
-			info_y_axis=[]
-			flag=0
-			for i in range(len(solution_array)):
-				count=0
-				tmp=[]
-				for j in range(len(solution_array[i])):
-					if solution_array[j][i] =='1':
-						count+=1
-						flag=1
-					else:
-						if count!=0:
-						  tmp.append(count)
-						  count=0
-						  flag=0
-				if flag:
-					tmp.append(count)
-				info_x_axis.append(tmp)
+    @staticmethod
+    def get_solution(key):		
+        return GenerateArray.solution_dict.get(key, "Error_No_Solution_Found")
 
-			for i in range(len(solution_array)):
-				count=0
-				tmp=[]
-				for j in range(len(solution_array[i])):
-					if solution_array[i][j] =='1':
-						count+=1
-						flag=1
-					else:
-						if count!=0:
-						  tmp.append(count)
-						  count=0
-						  flag=0
-				if flag:
-					tmp.append(count)
-				info_y_axis.append(tmp)
-				
-			if x_axis == info_x_axis and y_axis == info_y_axis:
-				return True
-			else:
-				return False
-		else:
-			return False
+    @staticmethod
+    def get_cells(key):
+        if GenerateArray.puzzle_dict.has_key(key):
+            return GenerateArray.puzzle_dict[key].get('cells')
+        else:
+            return 
 
-	
+    @staticmethod
+    def get_xaxis(key):
+        if GenerateArray.puzzle_dict.has_key(key):
+            return GenerateArray.puzzle_dict[key].get('x_axis')
+        else:
+            return
+
+    @staticmethod
+    def get_yaxis(key):
+        if GenerateArray.puzzle_dict.has_key(key):
+            return GenerateArray.puzzle_dict[key].get('y_axis')
+        else:
+            return
+
+    @staticmethod
+    def del_tournament(key):
+        if GenerateArray.puzzle_dict.has_key(key):		
+            del GenerateArray.puzzle_dict[key]
+
+        if GenerateArray.solution_dict.has_key(key):		
+            del GenerateArray.solution_dict[key]
+
+    @staticmethod
+    def get_random(key):
+        GenerateArray.del_tournament(key)
+        return GenerateArray.get_array(key)
+
+    @staticmethod
+    def check_solution(key, solution_li):
+        if GenerateArray.solution_dict.has_key(key):
+            cells = GenerateArray.get_cells(key)
+            x_axis = GenerateArray.get_xaxis(key)
+            y_axis = GenerateArray.get_yaxis(key)
+            
+            solution_li = map(str,solution_li.split(','))
+            solution_array = []
+            k=0
+
+            for i in range(cells+1):
+                temp = []
+                for j in range(cells+1):
+                    temp.append(solution_li[k])
+                    k+=1					
+                solution_array.append(temp)
+
+            #GenerateArray.solution_dict[key])			
+            del solution_array[0]
+            for i in solution_array:
+                del i[0]
+            info_x_axis=[]
+            info_y_axis=[]
+            flag=0
+            for i in range(len(solution_array)):
+                count=0
+                tmp=[]
+                for j in range(len(solution_array[i])):
+                    if solution_array[j][i] =='1':
+                        count+=1
+                        flag=1
+                    else:
+                        if count!=0:
+                            tmp.append(count)
+                            count=0
+                            flag=0
+                if flag:
+                    tmp.append(count)
+                info_x_axis.append(tmp)
+
+            for i in range(len(solution_array)):
+                count=0
+                tmp=[]
+                for j in range(len(solution_array[i])):
+                    if solution_array[i][j] =='1':
+                        count+=1
+                        flag=1
+                    else:
+                        if count!=0:
+                            tmp.append(count)
+                            count=0
+                            flag=0
+                if flag:
+                    tmp.append(count)
+                info_y_axis.append(tmp)
+
+            if x_axis == info_x_axis and y_axis == info_y_axis:
+                return True
+            else:
+                return False
+        else:
+            return False
+
+
 
 class GetArray(BaseHandler):	
     @tornado.web.authenticated
@@ -351,16 +351,16 @@ class GetArray(BaseHandler):
             key = tournament		
         else:
             game_array = {
-				"success" : 1,
-				"result" : ' Parameters not found ',
-			}
-		
+                "success" : 1,
+                "result" : ' Parameters not found ',
+            }
+
         if key:
             game_array = GenerateArray.get_array(key)
             game_array['success'] = 0	
-		
+
         self.write(game_array)
-        
+
 
 class GetRandom(BaseHandler):	
     @tornado.web.authenticated
@@ -370,22 +370,22 @@ class GetRandom(BaseHandler):
         from_user = self.get_current_user().get(u'name')
         key = None
         if from_user is not None and gametype == 'single':
-			from_user = from_user.replace(' ','_')
-			key	= from_user	
+            from_user = from_user.replace(' ','_')
+            key	= from_user	
         elif tournament is not None:
-		    key = tournament		
+            key = tournament		
         else:
-			game_array = {
-				"success" : 1,
-				"result" : ' Parameters not found ',
-			}
-		
+            game_array = {
+                "success" : 1,
+                "result" : ' Parameters not found ',
+            }
+
         if key:
-			game_array = GenerateArray.get_random(key)
-			game_array['success'] = 0	
-		
+            game_array = GenerateArray.get_random(key)
+            game_array['success'] = 0	
+
         self.write(game_array)        
-			
+
 
 class GetSolution(BaseHandler,MessageMixin):
     @tornado.web.authenticated
@@ -396,22 +396,22 @@ class GetSolution(BaseHandler,MessageMixin):
         key = None
         game_array = {}
         if from_user is not None and gametype == 'single':
-			from_user = from_user.replace(' ','_')
-			key	= from_user	
+            from_user = from_user.replace(' ','_')
+            key	= from_user	
         elif tournament is not None:
-		    key = tournament		
+            key = tournament		
         else:
-			game_array = {
-				"success" : 1,
-				"result" : ' Tournament not found ',
-			}
+            game_array = {
+                "success" : 1,
+                "result" : ' Tournament not found ',
+            }
 
-			#self.modify_messages(from_user,'red')
+            #self.modify_messages(from_user,'red')
         if key:
-			game_array['result'] = GenerateArray.get_solution(key)
-			game_array['success'] = 0		
+            game_array['result'] = GenerateArray.get_solution(key)
+            game_array['success'] = 0		
         self.write(game_array)
-		
+
 
 class CheckSolution(BaseHandler, MessageMixin):
     @tornado.web.authenticated
@@ -423,27 +423,27 @@ class CheckSolution(BaseHandler, MessageMixin):
         game_array = {}
         key = None
         if from_user is not None and gametype == 'single':
-			from_user = from_user.replace(' ','_')
-			key	= from_user	
+            from_user = from_user.replace(' ','_')
+            key	= from_user	
         elif tournament is not None:
-		    key = tournament			
-		
+            key = tournament			
+
         if key is not None and solution_li is not None:
-			if GenerateArray.check_solution(key,solution_li):
-				game_array['result'] = '1'
-			else:
-				game_array['result'] = '0'
-				
-			game_array['success'] = 0
-			
+            if GenerateArray.check_solution(key,solution_li):
+                game_array['result'] = '1'
+            else:
+                game_array['result'] = '0'
+
+            game_array['success'] = 0
+
         else:
-			game_array = {
-				"success" : 1,
-				"result" : ' Tournament not found ',
-			}
-		#self.modify_messages(from_user,'blue')
+            game_array = {
+                "success" : 1,
+                "result" : ' Tournament not found ',
+            }
+            #self.modify_messages(from_user,'blue')
         self.write(game_array)	
-             
+
 
 class MessageNewHandler(BaseHandler, MessageMixin):
     @tornado.web.authenticated
@@ -453,7 +453,7 @@ class MessageNewHandler(BaseHandler, MessageMixin):
             "from": self.current_user["name"].replace(' ','_'),
             "body": self.get_argument("body"),
         }
-        #logging.info(" dict : "+ str(self.current_user))
+        
         message["html"] = self.render_string("message.html", message=message)
         if self.get_argument("next", None):
             self.redirect(self.get_argument("next"))

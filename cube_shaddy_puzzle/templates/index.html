@@ -11,59 +11,60 @@
       <b>{{ current_user["name"] }}</b> -
       <a href="/auth/logout">{{ _("Sign out") }}</a>
     </div>
-      
-  <div id="main">
-        <a href="/cube">Choose Game Type</a>
-    <div id="contant">
-		<canvas id="canvas_cube" ></canvas>
-		<div><div id="canvasHeading">
-		</div>
-		<div id="number_moves">
-		</div>
-		<div id="btndiv">
-			<input type="button" onclick="checkSolution()" value="CHECK"/>&nbsp;
-			&nbsp;<input type="button" onclick="resetCanvas()" value="RESET"/>&nbsp;
-			&nbsp;<input type="button" onclick="getSolution()" value="SHOW"/>&nbsp;
-			&nbsp;<input type="button" onclick="getRandom()" value="RANDOM" {% if game_type == 'tournament' %} style="display:none;" {% end %} />&nbsp;
-			&nbsp;<input type="button" onclick="getHelp()"value="HELP"/>&nbsp;
-		</div>
-		</br>
-	</div>
-	{% if game_type == 'tournament' %}
-	    <div id="chatbox">
-	      <span>Moves from Users</span>
-	      <div id="inbox">
-		    {% for message in messages %}
-		      {% module Template("message.html", message=message) %}
-		    {% end %}
-	      </div>
-	      <div id="input">
-		    <form action="/a/message/new" method="post" id="messageform">
-		      <table>
-			    <tr>
-			      <td><input name="body" id="message" style="width:500px;display:none;"></td>
-			      <td style="padding-left:5px">
-				    <input type="submit" style="display:none;" value="{{ _("Post") }}"/>
-				    <input type="hidden" name="next" value="{{ request.path }}"/>
-				    {% module xsrf_form_html() %}
-			      </td>
-			    </tr>
-		      </table>
-		    </form>
-	      </div>    
-	    </div>
-    {% end %}	    
 
-	
+  <div id="main">
+    <a href="/cube">Choose Game Type</a>
+  <div id="contant">
+    <canvas id="canvas_cube" ></canvas>
+    <div>
+    <div id="canvasHeading">
     </div>
-    <script src="{{ static_url("jquery.min.js") }}" type="text/javascript"></script>
-    <script src="{{ static_url("chat.js") }}" type="text/javascript"></script>
-    <script src="{{ static_url("shady.js") }}" type="text/javascript"></script>
-    <script>
+    <div id="number_moves">
+    </div>
+    <div id="btndiv">
+      <input type="button" onclick="checkSolution()" value="CHECK"/>&nbsp;
+      &nbsp;<input type="button" onclick="resetCanvas()" value="RESET"/>&nbsp;
+      &nbsp;<input type="button" onclick="getSolution()" value="SHOW"/>&nbsp;
+      &nbsp;<input type="button" onclick="getRandom()" value="RANDOM" {% if game_type == 'tournament' %} style="display:none;" {% end %} />&nbsp;
+      &nbsp;<input type="button" onclick="getHelp()"value="HELP"/>&nbsp;
+    </div>
+    </br>
+  </div>
+  {% if game_type == 'tournament' %}
+    <div id="chatbox">
+      <span>Moves from Users</span>
+      <div id="inbox">
+        {% for message in messages %}
+          {% module Template("message.html", message=message) %}
+        {% end %}
+      </div>
+      <div id="input">
+        <form action="/a/message/new" method="post" id="messageform">
+          <table>
+            <tr>
+              <td><input name="body" id="message" style="width:500px;display:none;"></td>
+              <td style="padding-left:5px">
+                <input type="submit" style="display:none;" value="{{ _("Post") }}"/>
+                <input type="hidden" name="next" value="{{ request.path }}"/>
+                {% module xsrf_form_html() %}
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>    
+    </div>
+  {% end %}	    
+
+
+  </div>
+  <script src="{{ static_url("jquery.min.js") }}" type="text/javascript"></script>
+  <script src="{{ static_url("chat.js") }}" type="text/javascript"></script>
+  <script src="{{ static_url("shady.js") }}" type="text/javascript"></script>
+  <script>
     window.onload=shadyInit();
     window.onbeforeunload = function() {
-		return "Dude, are you sure you want to leave? Think of the kittens!";
-		}
-	</script>
-  </body>
+      return "Dude, are you sure you want to leave? Think of the kittens!";
+      }
+  </script>
+</body>
 </html>

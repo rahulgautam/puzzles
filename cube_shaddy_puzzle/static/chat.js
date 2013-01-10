@@ -16,7 +16,7 @@ var gametype = 'tournament';
 $(document).ready(function() {
     if (!window.console) window.console = {};
     if (!window.console.log) window.console.log = function() {};
-  
+
     gametype = $("#game-type").val();
     if(gametype=='tournament')
     {
@@ -58,8 +58,8 @@ function getCookie(name) {
 jQuery.postJSON = function(url, args, callback) {
     args._xsrf = getCookie("_xsrf");
     $.ajax({url: url, data: $.param(args), dataType: "text", type: "POST",
-            success: function(response) {
-        if (callback) callback(eval("(" + response + ")"));
+        success: function(response) {
+    if (callback) callback(eval("(" + response + ")"));
     }, error: function(response) {
         console.log("ERROR:", response)
     }});
@@ -97,8 +97,8 @@ var updater = {
         var args = {"_xsrf": getCookie("_xsrf")};
         if (updater.cursor) args.cursor = updater.cursor;
         $.ajax({url: "/a/message/updates", type: "POST", dataType: "text",
-                data: $.param(args), success: updater.onSuccess,
-                error: updater.onError});
+            data: $.param(args), success: updater.onSuccess,
+            error: updater.onError});
     },
 
     onSuccess: function(response) {
@@ -138,14 +138,14 @@ var updater = {
         var dd = $("#inbox").find("#"+message.from);
         if(dd.length>0)
         {
-			dd.html(message.html);
-		}
-		else
-		{
-			var node = $(message.html);
-			node.hide();
-			$("#inbox").append(node);
-			node.slideDown();
-		}
+            dd.html(message.html);
+        }
+        else
+        {
+            var node = $(message.html);
+            node.hide();
+            $("#inbox").append(node);
+            node.slideDown();
+        }
     }
 };

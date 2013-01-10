@@ -13,7 +13,7 @@ class RandomCube(object):
     def get_random_list(n, total):
         dividers = sorted(random.sample(xrange(1, total), n - 1))
         return [a - b for a, b in zip(dividers + [total], [0] + dividers)]
-    
+
     @staticmethod
     def get_list(size,max_num,total):
         li = RandomCube.get_random_list(size,total)
@@ -30,7 +30,7 @@ class RandomCube(object):
             else:
                 sum_list+=i
         return sum_list+first+second+third+fourth
-    
+
     def get_random_cube(self):
         try:
             cells_array=[]    
@@ -46,7 +46,7 @@ class RandomCube(object):
                 li_random=RandomCube.get_list(cells,cells,sum_cells)
             except Exception,e:
                 li_random=RandomCube.get_list(cells,cells/2+2,sum_cells)
-        
+
             start_index=0
             for i in range(cells):
                 if(li_random[i]>cells/2):
@@ -56,7 +56,7 @@ class RandomCube(object):
 
             for i in range(cells):
                 info_x_axis.append(RandomCube.get_random_list(x_axis[i], li_random[i]))
-                
+
             print_array=[]
 
             for i in info_x_axis:
@@ -117,12 +117,12 @@ class RandomCube(object):
                 info_y_axis.append(tl)
 
             for i in range(cells+1):
-				cells_array.append(['0' for j in range(cells+1)])
-            
+                cells_array.append(['0' for j in range(cells+1)])
+
             s.insert(0, [ '0' for i in range(cells)])
             for i in range(len(s)):
-				s[i].insert(0,'0')
-				
+                s[i].insert(0,'0')
+
             cube_dict["cells_array"]=cells_array
             cube_dict["cells"]=cells
             cube_dict["y_axis"]=info_x_axis
@@ -131,11 +131,11 @@ class RandomCube(object):
             cube_dict["solution"]=s
             cube_dict["success"]=0
             return cube_dict
-                        
+
         except Exception,e:
             import traceback
             print("Exception in Shaddy Puzzel %s " % traceback.format_exc())
-            
+
             cube_dict["cells"]=cells
             cube_dict["y_axis"]=info_y_axis
             cube_dict["x_axis"]=info_x_axis
@@ -145,7 +145,7 @@ class RandomCube(object):
             cube_dict["exception"]=traceback.format_exc()
             cube_dict["cells_array"]=cells_array
             return cube_dict
-            
+
 #rc = RandomCube()
 #cube_dict = rc.get_random_cube()
 #if cube_dict['success']==0:
