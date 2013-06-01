@@ -125,9 +125,9 @@ function checkSolution(){
     }
     else
     {
-        var args = {"_xsrf": getCookie("_xsrf"), \
-                    "gametype": gametype, \
-                    "tournament": tournament, \
+        var args = {"_xsrf": getCookie("_xsrf"), 
+                    "gametype": gametype, 
+                    "tournament": tournament, 
                     "solution": cellArray.toString()};
                     
         $.ajax({url: "/game/cube/checksolution", type: "POST", dataType: "text", cache: false,
