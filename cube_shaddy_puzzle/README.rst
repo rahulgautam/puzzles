@@ -1,7 +1,7 @@
 About Puzzle
 =============
-cube is an HTML5 based tiny web application build on top of tornado.
-Right now it has implemented a `Shaddy Puzzle <http://en.wikipedia.org/wiki/Nonogram>`_
+cube is an HTML5 based web application build on top of tornado.
+Right now it has implemented a `Shaddy Puzzle<http://en.wikipedia.org/wiki/Nonogram>`_.
 
 Features include:
 -----------------
@@ -17,23 +17,24 @@ How to Run:
     * cd cube_shaddy_puzzle
     * chmod +x cube.py
     * ./cube.py
-
-URL: https://localhost:8000
+    * here you go open URL: https://localhost:8000
 
 Screenshots
 -----------
+   Login Page
+.. figure:: http://i.imgur.com/NBTIG.png
+    :align: center
+    
+    
+   Choose Game Type
+.. figure:: http://i.imgur.com/IeQDh.png
+    :align: center
+   
+    
    Single Player Mode
 .. figure:: http://i.imgur.com/ET1mr.png
     :align: center
 
 
-   Choose Game Type
-.. figure:: http://i.imgur.com/IeQDh.png
-    :align: center
-
-
-   Login Page
-.. figure:: http://i.imgur.com/NBTIG.png
-    :align: center
 
 
